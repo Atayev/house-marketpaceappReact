@@ -720,6 +720,7 @@ button {
   display: flex;
 }
 
+
 .formButton,
 .formInput,
 .formInputAddress,
@@ -736,6 +737,15 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+ 
+}
+textarea {
+  border: none;
+  padding: 0.9rem;
+  background-color: #ffffff;
+  font-weight: 600;
+  border-radius: 1rem;
+  font-size: 1rem;
 }
 .formButtonActive {
   background-color: #00cc66;
