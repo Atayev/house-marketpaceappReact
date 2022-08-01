@@ -11,6 +11,7 @@ import {
 } from 'firebase/storage'
 import {db} from '../firebase.config'
 import {v4 as uuidv4} from 'uuid'
+import {addDoc,collection,serverTimestamp} from 'firebase/firestore'
 function CreateListing() {
     const [geoLocationEnabled,setGeoLocationEn] = useState(true)
     const [loading,setLoading] = useState(false)
@@ -89,8 +90,8 @@ function CreateListing() {
                 return
             }
             } else {
-            geolocation.lat = latitude
-            geolocation.lng = longitude
+              geolocation.lat = latitude
+              geolocation.lng = longitude
             }
 
                 // upload images in firebase
@@ -135,7 +136,21 @@ function CreateListing() {
                     toast.error('images not uploaded')
                     return
                 })
-                console.log(imgUrls)
+                const formDataCopy = {
+                  ...formData,
+                  imgUrls,
+                  geolocation,
+                  timestamp:serverTimestamp()
+                }
+                formDataCopy.location=address
+                delete formDataCopy.images
+                delete formDataCopy.address
+                !formDataCopy.offer && delete formDataCopy.discountedPrice
+
+                const docRef = await addDoc(collection(db,'listings'),formDataCopy)
+                toast.success('Listing saved')
+
+                navigate(`/category/${formDataCopy.type}/${docRef.id}`)
                 setLoading(false)
             }
     const onMutate=(e)=>{
