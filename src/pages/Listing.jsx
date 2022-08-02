@@ -6,8 +6,8 @@ import {db} from '../firebase.config'
 import Spinner from '../components/Spinner'
 import shareIcon from '../assets/svg/shareIcon.svg'
 import {MapContainer,Marker,Popup,TileLayer} from 'react-leaflet'
-
-
+import { Carousel,CarouselItem } from 'react-bootstrap'
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Listing() {
     const [listing,setListing] = useState(null)
@@ -37,7 +37,17 @@ function Listing() {
     }
   return (
     <main>
-        {/*Slider*/}
+        <Carousel>
+        {listing.imgUrls.map((url, index) => (
+          <CarouselItem key={index}>
+            <div>
+                <img style={{height:"30vh"}} className='swiperSlideImg' src={listing.imgUrls[index]} alt="" />
+           </div>
+          </CarouselItem>   
+        ))}
+
+        </Carousel>
+
         <div className="shareIconDiv" onClick={()=>{
             navigator.clipboard.writeText(window.location.href)
             setShareLinkCopied(true)
@@ -70,7 +80,7 @@ function Listing() {
             </ul>
 
             <p className="listingLocationTitle">Location</p>
-            //map from leaflet
+             {/*map from leaflet*/}
             <div className="leafletContainer">
                 
                 
